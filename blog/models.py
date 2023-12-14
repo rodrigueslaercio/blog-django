@@ -6,9 +6,17 @@ class Post(models.Model):
     text = models.TextField()
     created_at = models.DateField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now_add=True)
+    categories = models.ManyToManyField("Category", related_name="posts")
     
     def __str__(self):
         """Returns a string representation of the class"""
         return self.text
     
     
+class Category(models.Model):
+    """A category model for the posts"""
+    name = models.CharField(max_length=50)
+    
+    def __str__(self):
+        """Returns a string representation of the class"""
+        return self.name
