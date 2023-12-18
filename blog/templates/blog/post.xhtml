@@ -1,0 +1,13 @@
+{% extends 'blog/base.xhtml' %}
+
+{% block content %}
+    <h3>{{ post.title }} | Categories: 
+        <small>
+            {% for category in categories %}
+                {{ category.name }}
+            {% endfor %}
+        </small>
+    </h3>
+    <small>Published at: {{ post.created_at }}</small>
+    <p>{{ post.text }}</p>
+{% endblock content %}
