@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Blog apps 
     'blog',
+    'accounts',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,4 +124,7 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
+#My settings
+LOGIN_REDIRECT_URL = 'blog:index'
+LOGOUT_REDIRECT_URL = 'blog:index'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
