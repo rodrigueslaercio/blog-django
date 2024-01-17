@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Post
 from .forms import PostForm
@@ -16,7 +17,11 @@ def post(request, post_id):
     context = {'post': post, 'categories': categories}
     return render(request, 'blog/post.xhtml', context)
 
+@login_required
 def new_post(request):
+    if not request.user.is_staff:
+       return redirect('blog:index')
+    
     """Add a new post"""
     if request.method != 'POST':
         form = PostForm()
@@ -28,7 +33,11 @@ def new_post(request):
     context = {'form': form}
     return render(request, 'blog/new_post.xhtml', context)
 
+@login_required
 def edit_post(request, post_id):
+    if not request.user.is_staff:
+       return redirect('blog:index')
+    
     """Edit an existing post"""
     post = Post.objects.get(id=post_id)
     
