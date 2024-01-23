@@ -1,7 +1,7 @@
 {% extends 'blog/base.xhtml' %}
 
 {% block content %}
-    <h3>{{ post.title }} by {{ post.author.username }} | Categories: 
+    <h3>{{ post.title }} by <a href="{% url 'blog:author_posts' post.author.id %}">{{ post.author.username }}</a> | Categories: 
         <small>
             {% for category in categories %}
                 {{ category.name }}

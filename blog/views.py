@@ -54,3 +54,10 @@ def edit_post(request, post_id):
             return redirect('blog:post', post_id=post.id)
     context = {'post':post, 'form':form}
     return render(request, 'blog/edit_post.xhtml', context)
+
+def author_posts(request, author_id):
+    """Shows all the posts made by an author"""
+    posts = Post.objects.filter(author_id = author_id).order_by('-created_at')
+    author = posts.first().author.username
+    context = {'posts': posts, 'author': author}
+    return render(request, 'blog/author_posts.xhtml', context)
