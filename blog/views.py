@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 
 def index(request):
@@ -61,3 +61,10 @@ def author_posts(request, author_id):
     author = posts.first().author.username
     context = {'posts': posts, 'author': author}
     return render(request, 'blog/author_posts.xhtml', context)
+
+def category_posts(request, category_id):
+    """Shows all the posts within the category"""
+    category = Category.objects.get(id = category_id)
+    posts = Post.objects.filter(categories = category)
+    context = {'posts':posts, 'category': category}
+    return render(request, 'blog/category.xhtml', context)
