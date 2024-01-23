@@ -6,7 +6,7 @@ from .forms import PostForm
 
 def index(request):
     """Home page"""
-    posts = Post.objects.order_by('created_at')
+    posts = Post.objects.order_by('-created_at')
     context = {'posts': posts}
     return render(request, 'blog/index.xhtml', context)
 
@@ -26,8 +26,10 @@ def new_post(request):
     if request.method != 'POST':
         form = PostForm()
     else:
-        form = PostForm(data=request.POST)
+        form = PostForm(data=request.POST) 
         if form.is_valid():
+            form = form.save(commit=False)
+            form.author = request.user
             form.save()
             return redirect('blog:index')
     context = {'form': form}

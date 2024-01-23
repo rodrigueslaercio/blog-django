@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Post(models.Model):
     """A blog post made by a user adm"""
@@ -7,6 +8,7 @@ class Post(models.Model):
     created_at = models.DateField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField("Category", related_name="posts")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         """Returns a string representation of the class"""
