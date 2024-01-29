@@ -4,7 +4,7 @@
 
 <p>Edit post</p>
 
-<form action="{% url 'blog:edit_post' post.id %}" method="post">
+<form action="{% url 'blog:edit_post' slug=post.slug %}" method="post">
     {% csrf_token %}
     {{ form.as_div }}
 

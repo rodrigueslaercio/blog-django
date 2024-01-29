@@ -7,8 +7,8 @@
 
     {% block posts %}
             {% for post in posts %}
-                <h3><a href="{% url 'blog:post' post.id %}">{{ post.title }}</a></h3>
-                <p>{{ post.text | slice:':200' }}...</p>
+                <h3><a href="{% url 'blog:post' post.slug %}">{{ post.title }}</a></h3>
+                <p>{{ post.text | slice:':150' }}...</p>
             {% empty %}
                 The blog has no posts yet.
             {% endfor %}

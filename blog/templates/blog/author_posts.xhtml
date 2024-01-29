@@ -6,7 +6,7 @@
 
     {% block posts %}
         {% for post in posts %}
-            <h3><a href="{% url 'blog:post' post.id %}">{{ post.title }}</a></h3>
+            <h3><a href="{% url 'blog:post' slug=post.slug %}">{{ post.title }}</a></h3>
             <p>{{ post.text | slice:':200' }}...</p>
         {% empty %}
             This author has no posts yet
