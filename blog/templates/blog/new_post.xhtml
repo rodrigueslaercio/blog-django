@@ -4,7 +4,7 @@
 
 <p>New post</p>
 
-<form action="{% url 'blog:new_post' %}" method="post">
+<form action="{% url 'blog:new_post' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     {{ form.as_div }}

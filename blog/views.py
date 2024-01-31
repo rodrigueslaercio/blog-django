@@ -40,11 +40,13 @@ def new_post(request):
     if request.method != 'POST':
         form = PostForm()
     else:
-        form = PostForm(data=request.POST) 
+        form = PostForm(data=request.POST, files=request.FILES) 
         if form.is_valid():
-            form = form.save(commit=False)
-            form.author = request.user
-            form.save()
+            new_post = form.save(commit=False)
+            new_post.author = request.user
+            new_post.save()
+            # handle many to many relationship // fix the categories issue
+            form.save_m2m()
             return redirect('blog:index')
     context = {'form': form}
     return render(request, 'blog/new_post.xhtml', context)
@@ -62,7 +64,7 @@ def edit_post(request, slug):
         form = PostForm(instance=post)
     else:
         # POST data submitted, process it 
-        form = PostForm(instance=post, data=request.POST)
+        form = PostForm(instance=post, data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
             return redirect('blog:post', slug=post.slug)
