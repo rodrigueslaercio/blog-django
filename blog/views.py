@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
-from .models import Post, Category
-from .forms import PostForm
+from .models import Post, Category, Comment
+from .forms import PostForm, CommentForm
 
 def index(request):
     """Home page"""
@@ -13,10 +13,21 @@ def index(request):
 
 def post(request, slug):
     """Show a single post with full information"""
-    #post = Post.objects.get(id=post_id)
     post = get_object_or_404(Post, slug=slug)
+    
+    if request.method != 'POST':
+        form = CommentForm()
+    else:
+        form = CommentForm(data=request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = request.user 
+            form.post = post 
+            form.save()
+            return redirect('blog:post', slug=post.slug)
+    comments = Comment.objects.filter(post=post)
     categories = post.categories.all()
-    context = {'post': post, 'categories': categories}
+    context = {'post': post, 'categories': categories, 'comments':comments, 'form': form}
     return render(request, 'blog/post.xhtml', context)
     
 

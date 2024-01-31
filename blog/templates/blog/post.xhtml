@@ -13,4 +13,20 @@
     {% endif %}
     <small>Published at: {{ post.created_at }}</small>
     <p>{{ post.text }}</p>
+
+    <h3>Leave a comment</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_div }}
+        <button name="submit">Comment</button>
+    </form>
+
+    <h3>Comments</h3>
+    {% for comment in comments %}
+        <p><b>{{ comment.author }} wrote: </b></p>
+        <p>
+            {{ comment.body | linebreaks }}
+        </p>
+    {% endfor %}
 {% endblock content %}
