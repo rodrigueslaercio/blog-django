@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
 
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
@@ -8,7 +9,11 @@ from .forms import PostForm, CommentForm
 def index(request):
     """Home page"""
     posts = Post.objects.order_by('-created_at')
-    context = {'posts': posts}
+    paginator = Paginator(posts, 5)
+    
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {'posts': posts, 'page_obj': page_obj}
     return render(request, 'blog/index.xhtml', context)
 
 def post(request, slug):

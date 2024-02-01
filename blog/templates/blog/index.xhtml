@@ -1,16 +1,49 @@
 {% extends 'blog/base.xhtml' %}
 
+{% block page_header %}
+     <!-- TODO highlighted posts by views -->
+{% endblock page_header%}
+
 {% block content %}
-<p>Blog</p>
-
-<p>Welcome, fellow human, to my blog developed using Django</p>
-
     {% block posts %}
-            {% for post in posts %}
-                <h3><a href="{% url 'blog:post' post.slug %}">{{ post.title }}</a></h3>
-                <p>{{ post.text | slice:':150' }}...</p>
-            {% empty %}
-                The blog has no posts yet.
-            {% endfor %}
+        <div class="col d-flex justify-content-center">
+            <i class="bi bi-book"></i>
+            <div class="card mb-3" style="max-width: 540px;">
+                {% for post in page_obj %}
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% if post.cover %}
+                                <img class="img-fluid rounded-start" src="{{ post.cover.url }}" alt="Cover"/>
+                            {% endif%}
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{% url 'blog:post' post.slug %}">{{ post.title }}</a></h5>
+                                <p class="card-text"><small class="text-body-secondary">by {{ post.author }}</small></p>
+                                <p class="card-text">{{ post.text | slice:'150' }}...</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     {% endblock posts %}
+    <nav class="col d-flex justify-content-center" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                {% if page_obj.has_previous %}
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+            </li>
+            {% for page_num in page_obj.paginator.page_range %}
+                <li class="page-item{% if page_obj.number == page_num %} active{% endif %}">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+          </ul>        
+      </nav>
 {%  endblock content%}
