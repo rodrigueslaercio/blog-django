@@ -1,24 +1,74 @@
-<p>
-    <a href="{% url 'blog:index' %}">Home</a>
-    {% if user.is_staff %}
-        <a href="{% url 'blog:new_post' %}">New post</a> -
-    {% endif %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,
+        initial-scale=1">
 
-    {% if user.is_authenticated %}
-        Hi, {{ user.username }}
-    {% else %}
-        <a href="{% url 'accounts:register' %}">Register</a>
-        <a href="{% url 'accounts:login' %}">Log in</a>
-    {% endif %}
+        <title>My Blog</title>
 
-    {% if user.is_authenticated %}
-    <hr/>
+        {% load django_bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+    </head>
 
-    <form action="{% url 'accounts:logout' %}" method="post">
-        {% csrf_token %}
-        <button name="submit">Log out</button>
-    </form>
-{% endif %}
-</p>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'blog:index' %}">Blog</a>
 
-{% block content %}{% endblock content %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        {% if user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blog:new_post' %}">New post</a>                            
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                    {{ user.username }}
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        {% if user.is_authenticated %}
+                                            <form action="{% url 'accounts:logout' %}" method="post">
+                                                {% csrf_token %}
+                                                <button name="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>           
+                </div>
+            </div>
+        </nav>
+        <main class="container">
+            <div class="pb-2 mb-2 border-bottom">
+                {% block page_header %}{% endblock page_header %}
+            </div>
+            <div>
+                {% block content %}{% endblock content %}
+            </div>
+        </main>
+    </body>
+</html>
