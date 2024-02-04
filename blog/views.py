@@ -89,3 +89,8 @@ def category_posts(request, category_id):
     posts = Post.objects.filter(categories = category)
     context = {'posts':posts, 'category': category}
     return render(request, 'blog/category.xhtml', context)
+
+def categories(request):
+    categories = Category.objects.all()
+    context = {'categories':categories}
+    return context

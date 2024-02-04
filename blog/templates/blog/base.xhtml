@@ -29,6 +29,17 @@
                                 <a class="nav-link" href="{% url 'blog:new_post' %}">New post</a>                            
                             </li>
                         {% endif %}
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">Categories</a>
+
+                                <ul class="dropdown-menu">
+                                    {% for category in categories %}
+                                        <li><a class="dropdown-item" href="{% url 'blog:category_posts' category.id %}">{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto mb-2 mb-md-0">
