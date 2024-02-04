@@ -6,28 +6,30 @@
 
 {% block content %}
     {% block posts %}
-        <div class="col d-flex justify-content-center">
-            <i class="bi bi-book"></i>
-            <div class="card mb-3" style="max-width: 540px;">
-                {% for post in page_obj %}
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            {% if post.cover %}
-                                <img class="img-fluid rounded-start" src="{{ post.cover.url }}" alt="Cover"/>
-                            {% endif%}
-                        </div>
-
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="{% url 'blog:post' post.slug %}">{{ post.title }}</a></h5>
-                                <p class="card-text"><small class="text-body-secondary">by {{ post.author }}</small></p>
-                                <p class="card-text">{{ post.text | slice:'150' }}...</p>
+    <div class="container">
+        <div class="row">
+            {% for post in page_obj %}
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                {% if post.cover %}
+                                    <img class="img-fluid rounded-start" src="{{ post.cover.url }}" alt="Cover"/>
+                                {% endif%}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'blog:post' post.slug %}">{{ post.title }}</a></h5>
+                                    <p class="card-text"><small class="text-body-secondary">by {{ post.author }}</small></p>
+                                    <p class="card-text">{{ post.text | slice:'150' }}...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
+    </div>
     {% endblock posts %}
     <nav class="col d-flex justify-content-center" aria-label="Page navigation example">
         <ul class="pagination">
@@ -47,3 +49,9 @@
           </ul>        
       </nav>
 {%  endblock content%}
+
+<style>
+    .card {
+        margin-top: 20px !important;
+    }
+</style>
