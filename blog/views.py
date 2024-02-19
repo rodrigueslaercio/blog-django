@@ -87,7 +87,13 @@ def category_posts(request, category_id):
     """Shows all the posts within the category"""
     category = Category.objects.get(id = category_id)
     posts = Post.objects.filter(categories = category)
-    context = {'posts':posts, 'category': category}
+    
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    
+    
+    context = {'posts':posts, 'page_obj': page_obj, 'category': category}
     return render(request, 'blog/category.xhtml', context)
 
 def categories(request):
