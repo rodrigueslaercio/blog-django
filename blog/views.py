@@ -2,15 +2,21 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 
 def index(request):
     """Home page"""
-    posts = Post.objects.order_by('-created_at')
-    paginator = Paginator(posts, 5)
+    search_post = request.GET.get('search')
     
+    if search_post:
+        posts = Post.objects.filter(Q(title__icontains=search_post))
+    else:
+        posts = Post.objects.order_by('-created_at')
+    
+    paginator = Paginator(posts, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {'posts': posts, 'page_obj': page_obj}
@@ -32,7 +38,9 @@ def post(request, slug):
             return redirect('blog:post', slug=post.slug)
     comments = Comment.objects.filter(post=post)
     categories = post.categories.all()
-    context = {'post': post, 'categories': categories, 'comments':comments, 'form': form}
+    # gets the 4 most recents posts
+    recent_posts = Post.objects.order_by('-created_at')[:4]
+    context = {'post': post, 'categories': categories, 'comments':comments, 'form': form, 'recent_posts':recent_posts}
     return render(request, 'blog/post.xhtml', context)
     
 
