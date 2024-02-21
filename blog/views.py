@@ -16,7 +16,7 @@ def index(request):
     else:
         posts = Post.objects.order_by('-created_at')
     
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 9)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {'posts': posts, 'page_obj': page_obj}
