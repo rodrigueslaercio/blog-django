@@ -1,10 +1,14 @@
 from django import forms 
+from ckeditor.fields import RichTextFormField
 
 from .models import Post, Comment
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
+        widgets = {
+            'text': RichTextFormField()
+        }
         fields = ["title", "text", "categories", "cover"]
         
 class CommentForm(forms.ModelForm):

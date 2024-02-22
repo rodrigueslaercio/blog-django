@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     
     # Third party apps
     'django_bootstrap5',
+    'ckeditor',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.utils.text',
 ]
 
 MIDDLEWARE = [

@@ -7,6 +7,7 @@
 <form action="{% url 'blog:new_post' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
+    {{ form.media }}
     {{ form.as_div }}
     <button name="submit">Post</button>
 </form>

@@ -20,7 +20,7 @@
                     <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.cover.url }}" alt="Cover" style="width: 900px; height: 400px;"/></figure>
                 {% endif %}
                 <section class="mb-5">
-                   {{ post.text }}
+                   {{ post.text | safe }}
                 </section>
             </article>
 

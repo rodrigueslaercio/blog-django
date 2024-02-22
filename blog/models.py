@@ -2,11 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 class Post(models.Model):
     """A blog post made by a user adm"""
     title = models.CharField(max_length=255)
-    text = models.TextField()
+    text = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     categories = models.ManyToManyField("Category", related_name="posts", blank=True)
