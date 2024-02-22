@@ -27,11 +27,15 @@
             <section class="mb-5">
                 <div class="card bg-light">
                     <div class="card-body">
-                        <form class="mb-4" method="post">
-                            {% csrf_token %}
-                            {{ form.body }}
-                            <button name="submit">Comment</button>
-                        </form>
+                        {% if user.is_authenticated %}
+                            <form class="mb-4" method="post">
+                                {% csrf_token %}
+                                {{ form.body }}
+                                <button name="submit">Comment</button>
+                            </form>
+                        {% else %}
+                            <p>Please <a href="{% url 'accounts:login' %}">login</a> to comment.</p>
+                        {% endif %}
                         {% for comment in comments %}
                             <div class="d-flex">
                                 <div class="ms-3">
