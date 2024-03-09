@@ -84,6 +84,15 @@ def edit_post(request, slug):
     context = {'post':post, 'form':form}
     return render(request, 'blog/edit_post.xhtml', context)
 
+@login_required
+def delete_post(request, slug):
+    if not request.user.is_staff:
+        return redirect('blog:index')
+    
+    post = get_object_or_404(Post, slug=slug)
+    post.delete()
+    return redirect('blog:index')
+
 def author_posts(request, author_id):
     """Shows all the posts made by an author"""
     posts = Post.objects.filter(author_id = author_id).order_by('-created_at')
