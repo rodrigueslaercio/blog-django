@@ -20,7 +20,7 @@
 
     <body>
         <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
-            <div class="container-fluid">
+            <div class="container-fluid" style="margin-left: 115px;">
                 <a class="navbar-brand" href="{% url 'blog:index' %}">Blog</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -48,41 +48,31 @@
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                        {% if user.is_authenticated %}
-                            <li class="nav-item dropdown">
+                    <!-- Shows the dropdown of the user only if he's authenticated -->
+                    {% if user.is_authenticated %}
+                        <div class="dropdown-center">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                                        aria-expanded="false" style="margin-right: 115px;">
                                     {{ user.username }}
                                 </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        {% if user.is_authenticated %}
-                                            <form action="{% url 'accounts:logout' %}" method="post">
-                                                {% csrf_token %}
-                                                <button name="submit" class="dropdown-item">Logout</button>
-                                            </form>
-                                        {% endif %}
-                                    </li>
-                                </ul>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
-                            </li>
-                        {% endif %}
-                    </ul>           
-                </div>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <form action="{% url 'accounts:logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button name="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    {% else %}
+                    <div style="margin-right: 115px;">
+                        <a class="nav-link" href="{% url 'accounts:register' %}" style="display: inline-block; margin-right: 10px;">Register</a>
+                        <a class="nav-link" href="{% url 'accounts:login' %}" style="display: inline-block;">Login</a>
+                    </div>
+                    {% endif %}
             </div>
         </nav>
         <main class="container">
-            <div class="pb-2 mb-2 border-bottom">
-                {% block page_header %}{% endblock page_header %}
-            </div>
             <div>
                 {% block content %}{% endblock content %}
             </div>
