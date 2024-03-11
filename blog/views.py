@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 
 from .models import Post, Category, Comment
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, CategoryForm
 
 def index(request):
     """Home page"""
@@ -117,3 +117,20 @@ def categories(request):
     categories = Category.objects.all()
     context = {'categories':categories}
     return context
+
+@login_required
+def new_category(request):
+    if not request.user.is_staff:
+        return redirect('blog:index')
+    
+    if request.method != 'POST':
+        form = CategoryForm()
+    else:
+        form = CategoryForm(data=request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('blog:index')
+    context = {'form' : form}
+    return render(request, 'blog/new_category.xhtml', context)
+        

@@ -1,0 +1,12 @@
+{% extends 'blog/base.xhtml' %}
+
+{% block content %}
+    <p>New category</p>
+
+    <form action="{% url 'blog:new_category' %}" method="post" >
+        {% csrf_token %}
+        {{ form.as_div }}
+
+        <button name="submit" class="btn btn-secondary">Add</button>
+    </form>
+{% endblock content %}
